@@ -1,0 +1,704 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Patrycja Kargul | Medycyna Naturalna</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --forest:   #1a3322;
+    --moss:     #2e5c3e;
+    --sage:     #5a8f6a;
+    --mint:     #9dc4a0;
+    --cream:    #f5f0e8;
+    --parchment:#ede6d4;
+    --gold:     #c9a96e;
+    --text:     #1a1a14;
+    --muted:    #5c5c4a;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Jost', sans-serif;
+    background: var(--cream);
+    color: var(--text);
+    overflow-x: hidden;
+  }
+
+  /* ─── NOISE TEXTURE OVERLAY ─── */
+  body::before {
+    content: '';
+    position: fixed; inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 9999;
+    opacity: .5;
+  }
+
+  /* ─── NAV ─── */
+  nav {
+    position: fixed; top: 0; width: 100%; z-index: 100;
+    padding: 1.2rem 3rem;
+    display: flex; align-items: center; justify-content: space-between;
+    background: rgba(245,240,232,.88);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(90,143,106,.15);
+    transition: padding .3s;
+  }
+  .nav-logo {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.3rem; font-weight: 600;
+    color: var(--forest);
+    letter-spacing: .06em;
+  }
+  .nav-logo span { color: var(--sage); font-style: italic; }
+  .nav-links { display: flex; gap: 2rem; list-style: none; }
+  .nav-links a {
+    font-size: .78rem; letter-spacing: .12em; text-transform: uppercase;
+    color: var(--muted); text-decoration: none;
+    transition: color .25s;
+  }
+  .nav-links a:hover { color: var(--moss); }
+  .nav-cta {
+    font-size: .78rem; letter-spacing: .1em; text-transform: uppercase;
+    padding: .55rem 1.4rem;
+    border: 1.5px solid var(--moss);
+    color: var(--moss); background: transparent;
+    cursor: pointer; text-decoration: none;
+    transition: all .25s;
+  }
+  .nav-cta:hover { background: var(--moss); color: var(--cream); }
+
+  /* ─── HERO ─── */
+  #hero {
+    min-height: 100vh;
+    display: grid; grid-template-columns: 1fr 1fr;
+    align-items: center;
+    padding: 8rem 3rem 4rem;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero-bg {
+    position: absolute; inset: 0;
+    background: radial-gradient(ellipse 70% 80% at 80% 50%, rgba(157,196,160,.22) 0%, transparent 70%),
+                radial-gradient(ellipse 50% 60% at 10% 80%, rgba(201,169,110,.1) 0%, transparent 60%);
+  }
+  .hero-leaf {
+    position: absolute;
+    opacity: .07;
+    font-size: 28rem;
+    right: -4rem; top: -4rem;
+    line-height: 1;
+    animation: floatLeaf 8s ease-in-out infinite;
+    user-select: none;
+  }
+  @keyframes floatLeaf {
+    0%,100% { transform: rotate(-5deg) translateY(0); }
+    50%      { transform: rotate(2deg) translateY(-20px); }
+  }
+  .hero-content { position: relative; z-index: 2; animation: fadeUp .9s ease both; }
+  .hero-badge {
+    display: inline-block;
+    font-size: .7rem; letter-spacing: .18em; text-transform: uppercase;
+    color: var(--sage);
+    border: 1px solid rgba(90,143,106,.4);
+    padding: .35rem .9rem; margin-bottom: 2rem;
+    animation: fadeUp .9s .1s ease both;
+  }
+  .hero-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(3rem, 6vw, 5.5rem);
+    font-weight: 300; line-height: 1.1;
+    color: var(--forest);
+    margin-bottom: 1.5rem;
+    animation: fadeUp .9s .2s ease both;
+  }
+  .hero-title em { font-style: italic; color: var(--sage); }
+  .hero-sub {
+    font-size: 1rem; line-height: 1.7; color: var(--muted);
+    max-width: 440px; margin-bottom: 2.5rem;
+    animation: fadeUp .9s .3s ease both;
+  }
+  .hero-actions { display: flex; gap: 1rem; flex-wrap: wrap; animation: fadeUp .9s .4s ease both; }
+  .btn-primary {
+    padding: .85rem 2.2rem;
+    background: var(--forest); color: var(--cream);
+    font-size: .82rem; letter-spacing: .1em; text-transform: uppercase;
+    border: none; cursor: pointer; text-decoration: none;
+    transition: background .25s, transform .2s;
+  }
+  .btn-primary:hover { background: var(--moss); transform: translateY(-2px); }
+  .btn-ghost {
+    padding: .85rem 2.2rem;
+    background: transparent; color: var(--forest);
+    font-size: .82rem; letter-spacing: .1em; text-transform: uppercase;
+    border: 1.5px solid var(--forest); cursor: pointer; text-decoration: none;
+    transition: all .25s;
+  }
+  .btn-ghost:hover { background: var(--parchment); }
+
+  .hero-visual {
+    position: relative; z-index: 2;
+    display: flex; flex-direction: column; align-items: center; gap: 2rem;
+    animation: fadeUp .9s .5s ease both;
+  }
+  .hero-emblem {
+    width: 220px; height: 220px;
+    border-radius: 50%;
+    background: radial-gradient(circle, #e8f0e9 0%, #d0e4d2 60%, #b8d4bb 100%);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 5rem;
+    box-shadow: 0 30px 80px rgba(46,92,62,.2), inset 0 1px 0 rgba(255,255,255,.6);
+    animation: floatLeaf 7s ease-in-out infinite;
+  }
+  .hero-stats {
+    display: flex; gap: 2.5rem;
+  }
+  .stat { text-align: center; }
+  .stat-num {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 2.2rem; font-weight: 600;
+    color: var(--forest); line-height: 1;
+  }
+  .stat-label { font-size: .7rem; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); margin-top: .3rem; }
+
+  /* ─── SECTION COMMONS ─── */
+  section { padding: 6rem 3rem; }
+  .section-label {
+    font-size: .7rem; letter-spacing: .2em; text-transform: uppercase;
+    color: var(--sage); margin-bottom: 1rem;
+  }
+  .section-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(2rem, 4vw, 3.2rem); font-weight: 300;
+    color: var(--forest); line-height: 1.15;
+    margin-bottom: 1.2rem;
+  }
+  .section-title em { font-style: italic; color: var(--sage); }
+  .divider {
+    width: 60px; height: 1.5px;
+    background: linear-gradient(90deg, var(--sage), transparent);
+    margin: 1.5rem 0;
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(28px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ─── ABOUT ─── */
+  #o-mnie {
+    background: var(--forest);
+    color: var(--cream);
+    display: grid; grid-template-columns: 1fr 1fr; gap: 5rem;
+    align-items: center;
+  }
+  #o-mnie .section-title { color: var(--cream); }
+  #o-mnie .section-label { color: var(--mint); }
+  #o-mnie .divider { background: linear-gradient(90deg, var(--mint), transparent); }
+  .about-text p { font-size: .95rem; line-height: 1.85; color: rgba(245,240,232,.8); margin-bottom: 1.2rem; }
+  .about-text strong { color: var(--mint); font-weight: 500; }
+  .about-certs {
+    display: flex; flex-direction: column; gap: 1rem;
+    margin-top: 2rem;
+  }
+  .cert-item {
+    display: flex; align-items: center; gap: 1rem;
+    padding: 1rem 1.2rem;
+    background: rgba(255,255,255,.05);
+    border: 1px solid rgba(157,196,160,.15);
+    border-left: 3px solid var(--mint);
+  }
+  .cert-icon { font-size: 1.4rem; flex-shrink: 0; }
+  .cert-text { font-size: .82rem; letter-spacing: .04em; color: rgba(245,240,232,.85); }
+
+  .about-quote {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 2rem; font-style: italic; font-weight: 300;
+    line-height: 1.4; color: var(--mint);
+    border-left: 2px solid rgba(157,196,160,.3);
+    padding-left: 2rem;
+    margin-bottom: 2.5rem;
+  }
+
+  /* ─── SERVICES ─── */
+  #uslugi { background: var(--cream); }
+  .services-intro { max-width: 520px; margin-bottom: 3.5rem; }
+  .services-intro p { color: var(--muted); line-height: 1.7; }
+  .services-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
+    gap: 1.5px;
+    background: rgba(90,143,106,.12);
+    border: 1.5px solid rgba(90,143,106,.12);
+  }
+  .service-card {
+    background: var(--cream);
+    padding: 2rem;
+    position: relative;
+    overflow: hidden;
+    cursor: default;
+    transition: background .3s;
+  }
+  .service-card::after {
+    content: '';
+    position: absolute; bottom: 0; left: 0;
+    width: 0; height: 2px;
+    background: var(--sage);
+    transition: width .4s ease;
+  }
+  .service-card:hover { background: var(--parchment); }
+  .service-card:hover::after { width: 100%; }
+  .service-icon { font-size: 1.8rem; margin-bottom: 1rem; }
+  .service-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.3rem; font-weight: 600; color: var(--forest);
+    margin-bottom: .5rem;
+  }
+  .service-desc { font-size: .83rem; line-height: 1.65; color: var(--muted); }
+
+  /* ─── HOW IT WORKS ─── */
+  #jak-to-dziala {
+    background: var(--parchment);
+  }
+  .process-steps {
+    display: grid; grid-template-columns: repeat(4, 1fr);
+    gap: 2rem; margin-top: 3rem;
+    position: relative;
+  }
+  .process-steps::before {
+    content: '';
+    position: absolute;
+    top: 2.5rem; left: 8%; right: 8%;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--sage), transparent);
+  }
+  .step {
+    text-align: center;
+    position: relative;
+  }
+  .step-num {
+    width: 52px; height: 52px; border-radius: 50%;
+    background: var(--cream);
+    border: 2px solid var(--sage);
+    display: flex; align-items: center; justify-content: center;
+    margin: 0 auto 1.2rem;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.3rem; font-weight: 600; color: var(--moss);
+    position: relative; z-index: 1;
+  }
+  .step-title { font-size: .9rem; font-weight: 500; color: var(--forest); margin-bottom: .4rem; }
+  .step-text { font-size: .8rem; line-height: 1.6; color: var(--muted); }
+
+  /* ─── TESTIMONIALS ─── */
+  #opinie { background: var(--cream); overflow: hidden; }
+  .testimonials-track {
+    display: flex; gap: 1.5rem;
+    margin-top: 3rem;
+    overflow-x: auto;
+    padding-bottom: 1rem;
+    scrollbar-width: none;
+  }
+  .testimonials-track::-webkit-scrollbar { display: none; }
+  .testimonial {
+    min-width: 300px; flex-shrink: 0;
+    padding: 2rem;
+    background: var(--parchment);
+    border: 1px solid rgba(90,143,106,.12);
+    border-top: 3px solid var(--sage);
+    position: relative;
+  }
+  .testimonial::before {
+    content: '"';
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 5rem; color: rgba(90,143,106,.15);
+    position: absolute; top: -.5rem; left: 1rem;
+    line-height: 1;
+  }
+  .testimonial-text { font-size: .88rem; line-height: 1.75; color: var(--muted); margin-bottom: 1.2rem; font-style: italic; }
+  .testimonial-author { font-size: .78rem; letter-spacing: .08em; text-transform: uppercase; color: var(--moss); font-weight: 500; }
+  .stars { color: var(--gold); font-size: .85rem; margin-bottom: .6rem; }
+
+  /* ─── CONTACT ─── */
+  #kontakt {
+    background: var(--forest);
+    color: var(--cream);
+    display: grid; grid-template-columns: 1fr 1fr; gap: 5rem;
+    align-items: start;
+  }
+  #kontakt .section-title { color: var(--cream); }
+  #kontakt .section-label { color: var(--mint); }
+  #kontakt .divider { background: linear-gradient(90deg, var(--mint), transparent); }
+  .contact-info { margin-top: 2rem; display: flex; flex-direction: column; gap: 1.2rem; }
+  .contact-item { display: flex; align-items: flex-start; gap: 1rem; }
+  .contact-icon { font-size: 1.2rem; flex-shrink: 0; margin-top: .1rem; }
+  .contact-detail .label { font-size: .68rem; letter-spacing: .15em; text-transform: uppercase; color: var(--mint); margin-bottom: .2rem; }
+  .contact-detail a, .contact-detail span { font-size: .9rem; color: rgba(245,240,232,.85); text-decoration: none; }
+  .contact-detail a:hover { color: var(--mint); }
+  .contact-social { display: flex; gap: 1rem; margin-top: 2rem; }
+  .social-btn {
+    padding: .6rem 1.2rem;
+    border: 1px solid rgba(157,196,160,.3);
+    color: var(--mint); font-size: .78rem;
+    letter-spacing: .1em; text-transform: uppercase;
+    text-decoration: none; transition: all .25s;
+  }
+  .social-btn:hover { background: rgba(157,196,160,.15); border-color: var(--mint); }
+
+  .contact-form { display: flex; flex-direction: column; gap: 1rem; }
+  .form-group label {
+    display: block;
+    font-size: .7rem; letter-spacing: .15em; text-transform: uppercase;
+    color: var(--mint); margin-bottom: .4rem;
+  }
+  .form-group input,
+  .form-group textarea {
+    width: 100%;
+    background: rgba(255,255,255,.06);
+    border: 1px solid rgba(157,196,160,.2);
+    padding: .8rem 1rem;
+    color: var(--cream); font-family: 'Jost', sans-serif; font-size: .9rem;
+    outline: none; transition: border-color .25s;
+  }
+  .form-group input:focus,
+  .form-group textarea:focus { border-color: var(--mint); }
+  .form-group textarea { resize: vertical; min-height: 110px; }
+  ::placeholder { color: rgba(245,240,232,.3); }
+  .btn-submit {
+    padding: .85rem 2.2rem;
+    background: var(--mint); color: var(--forest);
+    font-family: 'Jost', sans-serif;
+    font-size: .82rem; letter-spacing: .1em; text-transform: uppercase;
+    font-weight: 500; border: none; cursor: pointer;
+    transition: background .25s, transform .2s;
+    align-self: flex-start;
+  }
+  .btn-submit:hover { background: #b5d4b8; transform: translateY(-2px); }
+
+  /* ─── FOOTER ─── */
+  footer {
+    background: #111a15;
+    color: rgba(245,240,232,.45);
+    padding: 2rem 3rem;
+    display: flex; align-items: center; justify-content: space-between;
+    font-size: .75rem; letter-spacing: .05em;
+  }
+  footer a { color: rgba(157,196,160,.6); text-decoration: none; }
+  footer a:hover { color: var(--mint); }
+
+  /* ─── SCROLL REVEAL ─── */
+  .reveal { opacity: 0; transform: translateY(30px); transition: opacity .7s ease, transform .7s ease; }
+  .reveal.visible { opacity: 1; transform: none; }
+
+  /* ─── RESPONSIVE ─── */
+  @media (max-width: 900px) {
+    nav { padding: 1rem 1.5rem; }
+    .nav-links { display: none; }
+    #hero { grid-template-columns: 1fr; text-align: center; padding: 6rem 1.5rem 3rem; }
+    .hero-sub { max-width: 100%; }
+    .hero-actions { justify-content: center; }
+    .hero-visual { display: none; }
+    #o-mnie, #kontakt { grid-template-columns: 1fr; gap: 3rem; padding: 4rem 1.5rem; }
+    #uslugi, #jak-to-dziala, #opinie { padding: 4rem 1.5rem; }
+    .process-steps { grid-template-columns: 1fr 1fr; }
+    .process-steps::before { display: none; }
+    footer { flex-direction: column; gap: .8rem; text-align: center; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">Patrycja <span>Kargul</span></div>
+  <ul class="nav-links">
+    <li><a href="#o-mnie">O mnie</a></li>
+    <li><a href="#uslugi">Usługi</a></li>
+    <li><a href="#jak-to-dziala">Jak działam</a></li>
+    <li><a href="#opinie">Opinie</a></li>
+    <li><a href="#kontakt">Kontakt</a></li>
+  </ul>
+  <a href="#kontakt" class="nav-cta">Umów wizytę</a>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-leaf">🌿</div>
+  <div class="hero-content">
+    <div class="hero-badge">Medycyna Naturalna · Baranówek</div>
+    <h1 class="hero-title">
+      Holistyczne wsparcie<br>dla <em>zdrowia</em><br>ciała i ducha
+    </h1>
+    <p class="hero-sub">Naturopatia, ziołolecznictwo i terapie naturalne — indywidualne podejście do każdego pacjenta, oparte na tradycji i nowoczesnej wiedzy.</p>
+    <div class="hero-actions">
+      <a href="#kontakt" class="btn-primary">Umów konsultację</a>
+      <a href="#uslugi" class="btn-ghost">Poznaj usługi</a>
+    </div>
+  </div>
+  <div class="hero-visual">
+    <div class="hero-emblem">🌱</div>
+    <div class="hero-stats">
+      <div class="stat"><div class="stat-num">10+</div><div class="stat-label">Lat doświadczenia</div></div>
+      <div class="stat"><div class="stat-num">500+</div><div class="stat-label">Zadowolonych pacjentów</div></div>
+      <div class="stat"><div class="stat-num">10</div><div class="stat-label">Metod terapii</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- O MNIE -->
+<section id="o-mnie">
+  <div class="about-text reveal">
+    <p class="section-label">O mnie</p>
+    <h2 class="section-title">Naturopata<br>i <em>Zielarz Fitoteraputa</em></h2>
+    <div class="divider"></div>
+    <div class="about-quote">
+      „Pomagam ludziom odzyskać zdrowie naturalnymi metodami."
+    </div>
+    <p>Jestem <strong>Patrycją Kargul</strong> — naturopatą, zielarzem i fitoterapeutą z Baranówka. Od lat pomagam pacjentom wrócić do równowagi ciała i ducha, łącząc tradycyjną wiedzę zielarską z nowoczesnymi metodami terapeutycznymi.</p>
+    <p>Każdą osobę traktuję indywidualnie. Wierzę, że <strong>prawdziwe zdrowie</strong> wynika z harmonii — między ciałem, umysłem i środowiskiem, w którym żyjemy.</p>
+    <div class="about-certs">
+      <div class="cert-item">
+        <div class="cert-icon">🎓</div>
+        <div class="cert-text">Akademia Naturopatii</div>
+      </div>
+      <div class="cert-item">
+        <div class="cert-icon">🌿</div>
+        <div class="cert-text">Polska Akademia Medycyny Naturalnej i Fitoterapii</div>
+      </div>
+    </div>
+  </div>
+  <div class="reveal">
+    <p class="section-label">Filozofia</p>
+    <h2 class="section-title">Naturalne metody<br><em>wspierania zdrowia</em></h2>
+    <div class="divider"></div>
+    <p style="color:rgba(245,240,232,.75); line-height:1.85; font-size:.95rem;">
+      Medycyna naturalna traktuje człowieka całościowo. Zamiast zwalczać objawy, szukamy przyczyn dolegliwości — w diecie, stylu życia, środowisku i energii ciała. Każda wizyta to rozmowa, nie recepta.
+    </p>
+    <br>
+    <p style="color:rgba(245,240,232,.75); line-height:1.85; font-size:.95rem;">
+      Stosowane przeze mnie metody są bezpieczne, nieinwazyjne i potwierdzone wieloletnią tradycją. Uzupełniają się wzajemnie, tworząc spójny plan wsparcia dla każdego pacjenta.
+    </p>
+    <br>
+    <a href="#kontakt" class="btn-primary" style="display:inline-block; margin-top:1rem;">Zapisz się na konsultację</a>
+  </div>
+</section>
+
+<!-- USŁUGI -->
+<section id="uslugi">
+  <div class="services-intro reveal">
+    <p class="section-label">Usługi</p>
+    <h2 class="section-title">Wszystko, czego<br>potrzebujesz dla <em>zdrowia</em></h2>
+    <div class="divider"></div>
+    <p>Oferuję szeroki wachlarz naturalnych terapii — dobranych indywidualnie do potrzeb i stanu zdrowia każdego pacjenta.</p>
+  </div>
+  <div class="services-grid reveal">
+    <div class="service-card">
+      <div class="service-icon">🌿</div>
+      <div class="service-name">Naturopatia</div>
+      <div class="service-desc">Całościowe podejście do zdrowia, łączące różne naturalne metody terapeutyczne w spójny plan leczenia.</div>
+    </div>
+    <div class="service-card">
+      <div class="service-icon">💬</div>
+      <div class="service-name">Konsultacje</div>
+      <div class="service-desc">Indywidualne rozmowy diagnostyczne, analiza stylu życia i dopasowanie planu terapii do Twoich potrzeb.</div>
+    </div>
+    <div class="service-card">
+      <div class="service-icon">🧲</div>
+      <div class="service-name">Klawiterapia</div>
+      <div class="service-desc">Stymulacja punktów akupresurowych za pomocą kluczyka — skuteczna metoda regulacji energii i łagodzenia bólu.</div>
+    </div>
+    <div class="service-card">
+      <div class="service-icon">🔬</div>
+      <div class="service-name">Biorezonans</div>
+      <div class="service-desc">Diagnostyka i terapia energetyczna oparta na częstotliwościach biologicznych — nieinwazyjna i bezbolesna.</div>
+    </div>
+    <div class="service-card">
+      <div class="service-icon">🌱</div>
+      <div class="service-name">Ziołolecznictwo</div>
+      <div class="service-desc">Dobór ziół i preparatów fitoterapeutycznych wspierających leczenie konkretnych dolegliwości.</div>
+    </div>
+    <div class="service-card">
+      <div class="service-icon">🌸</div>
+      <div class="service-name">Aromaterapia</div>
+      <div class="service-desc">Terapeutyczne zastosowanie olejków eterycznych dla zdrowia fizycznego, psychicznego i emocjonalnego.</div>
+    </div>
+    <div class="service-card">
+      <div class="service-icon">🩸</div>
+      <div class="service-name">Terapia mikrokrążenia</div>
+      <div class="service-desc">Poprawa krążenia kapilarnego — wsparcie regeneracji tkanek, odżywienia komórek i eliminacji toksyn.</div>
+    </div>
+    <div class="service-card">
+      <div class="service-icon">👂</div>
+      <div class="service-name">Konchowanie uszu</div>
+      <div class="service-desc">Delikatna metoda oczyszczania i relaksacji uszu za pomocą specjalnych świec, łagodząca szumy i napięcia.</div>
+    </div>
+    <div class="service-card">
+      <div class="service-icon">🦻</div>
+      <div class="service-name">Aurikuloterapia</div>
+      <div class="service-desc">Akupunktura małżowiny usznej — stymulacja punktów refleksologicznych ucha wpływających na cały organizm.</div>
+    </div>
+    <div class="service-card">
+      <div class="service-icon">🫧</div>
+      <div class="service-name">Bańki</div>
+      <div class="service-desc">Klasyczna terapia bańkami próżniowymi — rozluźnia mięśnie, poprawia krążenie, usuwa zastoje energetyczne.</div>
+    </div>
+  </div>
+</section>
+
+<!-- JAK TO DZIAŁA -->
+<section id="jak-to-dziala">
+  <div class="reveal">
+    <p class="section-label">Jak działam</p>
+    <h2 class="section-title">Twoja droga do <em>zdrowia</em></h2>
+    <div class="divider"></div>
+  </div>
+  <div class="process-steps reveal">
+    <div class="step">
+      <div class="step-num">1</div>
+      <div class="step-title">Kontakt</div>
+      <div class="step-text">Zadzwoń lub napisz — umówimy termin pierwszej konsultacji w gabinecie w Baranówku.</div>
+    </div>
+    <div class="step">
+      <div class="step-num">2</div>
+      <div class="step-title">Diagnoza</div>
+      <div class="step-text">Szczegółowy wywiad, analiza stanu zdrowia i dobranie odpowiednich metod terapeutycznych.</div>
+    </div>
+    <div class="step">
+      <div class="step-num">3</div>
+      <div class="step-title">Terapia</div>
+      <div class="step-text">Indywidualny plan leczenia — zabiegi, zioła, suplementacja i zalecenia dietetyczne.</div>
+    </div>
+    <div class="step">
+      <div class="step-num">4</div>
+      <div class="step-title">Wsparcie</div>
+      <div class="step-text">Stała opieka, monitoring efektów i dostosowywanie terapii do Twojego postępu.</div>
+    </div>
+  </div>
+</section>
+
+<!-- OPINIE -->
+<section id="opinie">
+  <div class="reveal">
+    <p class="section-label">Opinie pacjentów</p>
+    <h2 class="section-title">Co mówią o mnie<br><em>inni</em></h2>
+    <div class="divider"></div>
+  </div>
+  <div class="testimonials-track reveal">
+    <div class="testimonial">
+      <div class="stars">★★★★★</div>
+      <p class="testimonial-text">Pani Patrycja pomogła mi w problemach, z którymi borykałam się od lat. Po kilku wizytach poczułam ogromną różnicę. Polecam każdemu!</p>
+      <div class="testimonial-author">— Marta K.</div>
+    </div>
+    <div class="testimonial">
+      <div class="stars">★★★★★</div>
+      <p class="testimonial-text">Bańki i klawiterapia zrobiły cuda dla mojego kręgosłupa. Podejście indywidualne, ciepła atmosfera — czuję się w rękach specjalisty.</p>
+      <div class="testimonial-author">— Tomasz W.</div>
+    </div>
+    <div class="testimonial">
+      <div class="stars">★★★★★</div>
+      <p class="testimonial-text">Nareszcie ktoś, kto podchodzi do zdrowia holistycznie. Zioła i biorezonans — po miesiącu terapii jestem zupełnie inną osobą.</p>
+      <div class="testimonial-author">— Agnieszka R.</div>
+    </div>
+    <div class="testimonial">
+      <div class="stars">★★★★★</div>
+      <p class="testimonial-text">Sceptycznie podchodziłam do medycyny naturalnej, ale wyniki mówią same za siebie. Dziękuję za cierpliwość i profesjonalizm.</p>
+      <div class="testimonial-author">— Kamila S.</div>
+    </div>
+    <div class="testimonial">
+      <div class="stars">★★★★★</div>
+      <p class="testimonial-text">Konchowanie uszu — polecam każdemu, kto ma szumy w uszach lub problemy ze snem. Efekty po pierwszej wizycie!</p>
+      <div class="testimonial-author">— Robert M.</div>
+    </div>
+  </div>
+</section>
+
+<!-- KONTAKT -->
+<section id="kontakt">
+  <div class="reveal">
+    <p class="section-label">Kontakt</p>
+    <h2 class="section-title">Zacznij swoją<br><em>drogę do zdrowia</em></h2>
+    <div class="divider"></div>
+    <p style="color:rgba(245,240,232,.7); line-height:1.75; font-size:.9rem; max-width:380px;">
+      Umów się na konsultację lub zadaj pytanie — odpowiem najszybciej jak to możliwe.
+    </p>
+    <div class="contact-info">
+      <div class="contact-item">
+        <div class="contact-icon">📞</div>
+        <div class="contact-detail">
+          <div class="label">Telefon</div>
+          <a href="tel:720848401">720 848 401</a>
+        </div>
+      </div>
+      <div class="contact-item">
+        <div class="contact-icon">📧</div>
+        <div class="contact-detail">
+          <div class="label">E-mail</div>
+          <a href="mailto:patrycja.kargul@interia.pl">patrycja.kargul@interia.pl</a>
+        </div>
+      </div>
+      <div class="contact-item">
+        <div class="contact-icon">📍</div>
+        <div class="contact-detail">
+          <div class="label">Adres</div>
+          <span>Baranówek 42A, 27-552 Baćkowice</span>
+        </div>
+      </div>
+    </div>
+    <div class="contact-social">
+      <a href="https://www.facebook.com/profile.php?id=61584211838819" target="_blank" class="social-btn">Facebook</a>
+      <a href="https://www.instagram.com/naturalniepatrycjakargul" target="_blank" class="social-btn">Instagram</a>
+    </div>
+  </div>
+  <div class="reveal">
+    <p class="section-label">Wiadomość</p>
+    <h3 style="font-family:'Cormorant Garamond',serif; font-size:1.6rem; font-weight:300; color:var(--cream); margin-bottom:1.5rem;">Napisz do mnie</h3>
+    <div class="contact-form">
+      <div class="form-group">
+        <label>Imię i nazwisko</label>
+        <input type="text" placeholder="Jan Kowalski">
+      </div>
+      <div class="form-group">
+        <label>Telefon lub e-mail</label>
+        <input type="text" placeholder="+48 500 000 000">
+      </div>
+      <div class="form-group">
+        <label>W czym mogę pomóc?</label>
+        <textarea placeholder="Opisz swoje dolegliwości lub pytania..."></textarea>
+      </div>
+      <button class="btn-submit">Wyślij wiadomość →</button>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <span>© 2025 Patrycja Kargul — Medycyna Naturalna. Wszelkie prawa zastrzeżone.</span>
+  <span>Baranówek 42A · 27-552 Baćkowice · <a href="tel:720848401">720 848 401</a></span>
+</footer>
+
+<script>
+  // Scroll reveal
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); } });
+  }, { threshold: 0.12 });
+  reveals.forEach(el => observer.observe(el));
+
+  // Nav shrink
+  window.addEventListener('scroll', () => {
+    document.querySelector('nav').style.padding = window.scrollY > 60 ? '.8rem 3rem' : '1.2rem 3rem';
+  });
+
+  // Form submit demo
+  document.querySelector('.btn-submit').addEventListener('click', () => {
+    alert('Dziękuję! Odezwę się najszybciej jak to możliwe. 🌿');
+  });
+</script>
+</body>
+</html>
